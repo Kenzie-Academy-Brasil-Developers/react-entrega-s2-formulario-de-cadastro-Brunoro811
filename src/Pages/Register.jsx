@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -19,9 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Register() {
   const history = useHistory();
-  // let { params } = useParams();
   const onSubmitFunction = (data) => {
-    // console.log(data.name);
     history.push(`/Home/${data.name}`);
   };
   const schema = yup.object().shape({
