@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import axios from "axios";
+import { useHistory, useParams } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -18,20 +18,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function Register() {
+  const history = useHistory();
+  // let { params } = useParams();
   const onSubmitFunction = (data) => {
-    console.log(data);
-    axios
-      .post("https://kenziehub.me/users", data)
-      .then((response) => console.log(response.data))
-      .catch((error) => console.log(error));
+    // console.log(data.name);
+    history.push(`/Home/${data.name}`);
   };
   const schema = yup.object().shape({
-    name: yup.string().required("Nome Obrigátorio"),
-    email: yup.string().required("Email Obrigátorio"),
-    password: yup.string().required("Senha Obrigatório"),
+    name: yup
+      .string()
+      .required("Nome Obrigátorio")
+      .matches(
+        /^([A-Za-z])+([A-Za-z])\s([A-Za-z])+$/g,
+        "Primeiro e segundo nome"
+      ),
+    email: yup.string().required("Email Obrigátorio").email("Email inválido"),
+    password: yup
+      .string()
+      .required("Senha Obrigatório")
+      .matches(
+        /^(?=.{8,})+(([A-Za-z])+([0-9])+([!@.]))/g,
+        "*Mínimo 8 caracteres dentre : letras,números e esses especiais !.@"
+      ),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref("password"), "Senhas Diferentes"]),
+      .required("Confirmar senha Obrigátorio")
+      .oneOf([yup.ref("password"), null], "As senhas não correspondem!"),
+    bio: yup.string(),
+    contact: yup.string(),
+    course_module: yup.string(),
   });
   const {
     register,

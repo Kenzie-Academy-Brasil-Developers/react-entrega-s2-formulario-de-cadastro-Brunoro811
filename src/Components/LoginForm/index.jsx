@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     padding: "5px",
     margin: "0",
+    color: "black",
   },
   span: {
     display: "block",
@@ -41,10 +42,10 @@ function LoginForm({ register, handleSubmit, errors, onSubmitFunction }) {
           <TextField
             {...register("name")}
             id="outlined"
-            label="Nome"
+            label="Primeiro e Segundo Nome"
             autoComplete="current-username"
           />
-          {errors.username && (
+          {errors.name && (
             <span className={classe.span}>{errors.name.message}</span>
           )}
         </div>
